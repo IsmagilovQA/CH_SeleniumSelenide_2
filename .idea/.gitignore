@@ -1,0 +1,16 @@
+# Default ignored files
+/shelf/
+/workspace.xml
+
+.allure
+schema
+build
+/*/allure-results/
+out
+
+#IDEA Files
+.idea/*
+!.idea/vcs.xml
+!.idea/icon.png
+*.iml
+*.ipr
