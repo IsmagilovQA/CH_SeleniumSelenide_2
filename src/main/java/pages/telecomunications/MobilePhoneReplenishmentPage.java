@@ -122,8 +122,7 @@ public class MobilePhoneReplenishmentPage extends BasePage {
      * Check payment details text
      * @return
      */
-    public MobilePhoneReplenishmentPage checkPaymentDetailsIsPresentInTheCart() {
-        String text = paymentDetails.getText();
+    public MobilePhoneReplenishmentPage checkPaymentDetailsIsPresentInTheCart(String text) {
         checkMessage(text);
         return this;
     }
