@@ -1,33 +1,28 @@
 package pages.telecomunications;
 
-import org.junit.jupiter.api.Assertions;
-import org.openqa.selenium.By;
-import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebElement;
+import com.codeborne.selenide.SelenideElement;
 import pages.base.BasePage;
+
+import static com.codeborne.selenide.Condition.visible;
+import static com.codeborne.selenide.Selenide.$x;
 
 public class MobilePhoneReplenishmentPage extends BasePage {
 
-    public MobilePhoneReplenishmentPage(WebDriver driver) {
-        super(driver);
-    }
-
-    private final By walletBtn = By.xpath("//div[@data-qa-node='debitSourceSource']"),
-            cardNumberInput = By.xpath("//input[@data-qa-node='numberdebitSource']"),
-            expireDateInput = By.xpath("//input[@data-qa-node='expiredebitSource']"),
-            cvvCodeInput = By.xpath("//input[@data-qa-node='cvvdebitSource']"),
-            amountInput = By.xpath("//input[@data-qa-node='amount']"),
-            addToCartBtn = By.xpath("//button[@data-qa-node='submit']"),
-            phoneNumberInput = By.xpath("//input[@data-qa-node='phone-number']"),
-            paymentDetails = By.xpath("//div[@data-qa-node='details']");
-
+    private final SelenideElement walletBtn = $x("//div[@data-qa-node='debitSourceSource']"),
+            cardNumberInput = $x("//input[@data-qa-node='numberdebitSource']"),
+            expireDateInput = $x("//input[@data-qa-node='expiredebitSource']"),
+            cvvCodeInput = $x("//input[@data-qa-node='cvvdebitSource']"),
+            amountInput = $x("//input[@data-qa-node='amount']"),
+            addToCartBtn = $x("//button[@data-qa-node='submit']"),
+            phoneNumberInput = $x("//input[@data-qa-node='phone-number']"),
+            paymentDetails = $x("//div[@data-qa-node='details']");
 
     /**
      * Clicking on Wallet link
      * @return
      */
     public MobilePhoneReplenishmentPage selectCardFromWallet() {
-        driver.findElement(walletBtn).click();
+        walletBtn.click();
         return this;
     }
 
@@ -37,7 +32,7 @@ public class MobilePhoneReplenishmentPage extends BasePage {
      * @return
      */
     public MobilePhoneReplenishmentPage typeCardNumber(String cardNumber) {
-        driver.findElement(cardNumberInput).sendKeys(cardNumber);
+        clearAndType(cardNumberInput, cardNumber);
         return this;
     }
 
@@ -47,7 +42,7 @@ public class MobilePhoneReplenishmentPage extends BasePage {
      * @return
      */
     public MobilePhoneReplenishmentPage typeExpireDate(String expDate) {
-        driver.findElement(expireDateInput).sendKeys(expDate);
+        clearAndType(expireDateInput, expDate);
         return this;
     }
 
@@ -57,7 +52,7 @@ public class MobilePhoneReplenishmentPage extends BasePage {
      * @return
      */
     public MobilePhoneReplenishmentPage typeCvvCode(String code) {
-        driver.findElement(cvvCodeInput).sendKeys(code);
+        clearAndType(cvvCodeInput, code);
         return this;
     }
 
@@ -67,7 +62,7 @@ public class MobilePhoneReplenishmentPage extends BasePage {
      * @return
      */
     public MobilePhoneReplenishmentPage typeAmount(String amount) {
-        driver.findElement(amountInput).sendKeys(amount);
+        clearAndType(amountInput, amount);
         return this;
     }
 
@@ -77,26 +72,59 @@ public class MobilePhoneReplenishmentPage extends BasePage {
      * @return
      */
     public MobilePhoneReplenishmentPage typePhoneNumber(String phoneNumber) {
-        driver.findElement(phoneNumberInput).sendKeys(phoneNumber);
+        clearAndType(phoneNumberInput, phoneNumber);
         return this;
     }
 
-    /**
-     * Clicking Add to Cart button to submit
-     */
+    /** Clicking Add to Cart button to submit */
     public MobilePhoneReplenishmentPage addToCart() {
-        driver.findElement(addToCartBtn).click();
+        addToCartBtn.shouldBe(visible).click();
         return this;
     }
 
     /**
-     * @param expectedText expected text
+     * Check the card number and recipient
+     * @param cardNumber
+     * @param recipient
      * @return
      */
-    public MobilePhoneReplenishmentPage checkPaymentDetailsIsPresentInTheCart(String expectedText) {
-        waitElementIsVisible(driver.findElement(paymentDetails));
-        WebElement details = driver.findElement(paymentDetails);
-        Assertions.assertEquals(expectedText, details.getText());
+    public MobilePhoneReplenishmentPage checkPaymentCardAndRecipient(String cardNumber, String recipient) {
+        checkMessage(cardNumber);
+        checkMessage(recipient);
+        return this;
+    }
+
+    /**
+     * Check the amount and commission
+     * @param amount
+     * @param commission
+     * @return
+     */
+    public MobilePhoneReplenishmentPage checkPaymentAmountAndCommission(String amount, String commission) {
+        checkMessage(amount);
+        checkMessage(commission);
+        return this;
+    }
+
+    /**
+     * Check currency and fee
+     * @param currencyAmount
+     * @param feeAmount
+     * @return
+     */
+    public MobilePhoneReplenishmentPage checkPaymentCurrencyAndFee(String currencyAmount, String feeAmount) {
+        checkMessage(currencyAmount);
+        checkMessage(feeAmount);
+        return this;
+    }
+
+    /**
+     * Check payment details text
+     * @return
+     */
+    public MobilePhoneReplenishmentPage checkPaymentDetailsIsPresentInTheCart() {
+        String text = paymentDetails.getText();
+        checkMessage(text);
         return this;
     }
 }

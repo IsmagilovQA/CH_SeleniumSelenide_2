@@ -1,20 +1,19 @@
 package pages.loans;
 
-import org.openqa.selenium.By;
-import org.openqa.selenium.WebDriver;
+import com.codeborne.selenide.Condition;
+import com.codeborne.selenide.SelenideElement;
 import pages.base.BasePage;
+
+import static com.codeborne.selenide.Condition.visible;
+import static com.codeborne.selenide.Selenide.$x;
 
 public class CarLoansPage extends BasePage {
 
-    public CarLoansPage(WebDriver driver) {
-        super(driver);
-    }
-
-    private final By agreementTab = By.xpath("//div[contains(text(), 'Договори')]");
+    private final SelenideElement agreementTab = $x("//div[contains(text(), 'Договори')]");
 
 
     public CarLoansPage selectAgreementTab() {
-        driver.findElement(agreementTab).click();
+        agreementTab.shouldBe(visible).click();
         return this;
     }
 }
